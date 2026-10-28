@@ -68,3 +68,23 @@ class HistoryManager:
             return "No calculations in history."
 
         return self.data.to_string(index=False)
+
+    def statistics(self):
+        """Return statistics about calculation history."""
+        if self.data.empty:
+            return "No calculations available for statistics."
+
+        results = pd.to_numeric(
+            self.data["result"], errors="coerce"
+        ).dropna()
+
+        if results.empty:
+            return "No valid results available for statistics."
+
+        return (
+            "Calculation Statistics\n"
+            f"Total Calculations: {len(self.data)}\n"
+            f"Average Result: {results.mean():.2f}\n"
+            f"Minimum Result: {results.min():.2f}\n"
+            f"Maximum Result: {results.max():.2f}"
+        )

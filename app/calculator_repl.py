@@ -161,6 +161,7 @@ Available Commands:
   abs_diff <a> <b>   Absolute difference between two numbers
 
   history            Display calculation history
+  stats              Display calculation statistics
   clear              Clear calculation history
   undo               Undo last history change
   redo               Redo last undone change
@@ -201,6 +202,10 @@ def repl():
 
             if command == "history":
                 print(calculator.history.display())
+                continue
+
+            if command == "stats":
+                print(calculator.history.statistics())
                 continue
 
             if command == "clear":

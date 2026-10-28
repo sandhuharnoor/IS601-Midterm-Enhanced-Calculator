@@ -195,3 +195,37 @@ def test_load_parser_error(tmp_path):
     ):
         with pytest.raises(HistoryError, match="Unable to load"):
             history.load()
+
+def test_statistics_empty_history(history):
+    result = history.statistics()
+    assert result == "No calculations available for statistics."
+
+
+def test_statistics_with_calculations(history, sample_calculation):
+    history.add(sample_calculation)
+
+    result = history.statistics()
+
+    assert "Calculation Statistics" in result
+    assert "Total Calculations: 1" in result
+    assert "Average Result: 15.00" in result
+    assert "Minimum Result: 15.00" in result
+    assert "Maximum Result: 15.00" in result
+
+
+def test_statistics_with_invalid_results(history):
+    history.data = pd.DataFrame(
+        [
+            {
+                "operation": "test",
+                "a": 1,
+                "b": 2,
+                "result": "invalid",
+                "timestamp": "2026-10-28",
+            }
+        ]
+    )
+
+    result = history.statistics()
+
+    assert result == "No valid results available for statistics."

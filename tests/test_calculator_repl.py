@@ -266,3 +266,17 @@ def test_repl_main_entry_point():
             "app.calculator_repl",
             run_name="__main__",
         )
+def test_repl_statistics_command(capsys):
+    with patch(
+        "app.calculator_repl.input",
+        side_effect=["clear", "add 10 5", "stats", "exit"],
+    ):
+        repl()
+
+    output = capsys.readouterr().out
+
+    assert "Calculation Statistics" in output
+    assert "Total Calculations: 1" in output
+    assert "Average Result: 15.00" in output
+    assert "Minimum Result: 15.00" in output
+    assert "Maximum Result: 15.00" in output
