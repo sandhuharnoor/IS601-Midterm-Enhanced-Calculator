@@ -109,6 +109,10 @@ Available Commands:
   divide <a> <b>    Division
   power <a> <b>     Exponentiation
   root <a> <b>      Calculate the b-th root of a
+  modulus <a> <b>   Remainder after division
+  int_divide <a> <b> Integer division
+  percent <a> <b>   Calculate a as a percentage of b
+  abs_diff <a> <b>  Absolute difference between two numbers
 
   history           Display calculation history
   clear             Clear calculation history

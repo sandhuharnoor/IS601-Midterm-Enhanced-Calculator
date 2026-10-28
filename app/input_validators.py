@@ -25,6 +25,7 @@ def validate_operation(command):
     valid = {
         "add", "subtract", "multiply",
         "divide", "power", "root",
+        "modulus", "int_divide", "percent", "abs_diff",
     }
 
     if command.lower() not in valid:
