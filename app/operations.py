@@ -1,4 +1,4 @@
-"""Arithmetic operations using the Strategy design pattern."""
+"""Arithmetic operations using the Strategy and Factory design patterns."""
 
 from abc import ABC, abstractmethod
 import math
@@ -76,6 +76,40 @@ class Root(Operation):
         return result
 
 
+class Modulus(Operation):
+    """Calculate the remainder of division."""
+
+    def execute(self, a, b):
+        if b == 0:
+            raise OperationError("Cannot calculate modulus with zero.")
+        return a % b
+
+
+class IntegerDivision(Operation):
+    """Perform integer division using floor division."""
+
+    def execute(self, a, b):
+        if b == 0:
+            raise OperationError("Cannot divide by zero.")
+        return a // b
+
+
+class Percentage(Operation):
+    """Calculate a as a percentage of b."""
+
+    def execute(self, a, b):
+        if b == 0:
+            raise OperationError("Cannot calculate percentage with zero.")
+        return (a / b) * 100
+
+
+class AbsoluteDifference(Operation):
+    """Calculate the absolute difference between two numbers."""
+
+    def execute(self, a, b):
+        return abs(a - b)
+
+
 class OperationFactory:
     """Factory pattern for creating arithmetic strategies."""
 
@@ -86,6 +120,10 @@ class OperationFactory:
         "divide": Division,
         "power": Power,
         "root": Root,
+        "modulus": Modulus,
+        "int_divide": IntegerDivision,
+        "percent": Percentage,
+        "abs_diff": AbsoluteDifference,
     }
 
     @classmethod

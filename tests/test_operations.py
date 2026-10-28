@@ -14,6 +14,10 @@ from app.operations import (
     Division,
     Power,
     Root,
+    Modulus,
+    IntegerDivision,
+    Percentage,
+    AbsoluteDifference,
     OperationFactory,
 )
 
@@ -229,3 +233,102 @@ def test_root_value_error_exception():
 
     with pytest.raises(OperationError, match="Invalid root"):
         Root().execute(InvalidNumber(), 2)
+# Tests for additional midterm arithmetic operations
+
+
+@pytest.mark.parametrize(
+    "a,b,expected",
+    [
+        (10, 3, 1),
+        (20, 5, 0),
+        (-10, 3, 2),
+        (10, -3, -2),
+        (7.5, 2, 1.5),
+    ],
+)
+def test_modulus(a, b, expected):
+    assert Modulus().execute(a, b) == pytest.approx(expected)
+
+
+def test_modulus_by_zero():
+    with pytest.raises(OperationError, match="modulus with zero"):
+        Modulus().execute(10, 0)
+
+
+@pytest.mark.parametrize(
+    "a,b,expected",
+    [
+        (10, 3, 3),
+        (20, 5, 4),
+        (5, 2, 2),
+        (-10, 3, -4),
+        (10, -3, -4),
+    ],
+)
+def test_integer_division(a, b, expected):
+    assert IntegerDivision().execute(a, b) == pytest.approx(expected)
+
+
+def test_integer_division_by_zero():
+    with pytest.raises(OperationError, match="divide by zero"):
+        IntegerDivision().execute(10, 0)
+
+
+@pytest.mark.parametrize(
+    "a,b,expected",
+    [
+        (25, 100, 25),
+        (50, 200, 25),
+        (100, 100, 100),
+        (0, 100, 0),
+        (-25, 100, -25),
+    ],
+)
+def test_percentage(a, b, expected):
+    assert Percentage().execute(a, b) == pytest.approx(expected)
+
+
+def test_percentage_by_zero():
+    with pytest.raises(OperationError, match="percentage with zero"):
+        Percentage().execute(10, 0)
+
+
+@pytest.mark.parametrize(
+    "a,b,expected",
+    [
+        (10, 5, 5),
+        (5, 10, 5),
+        (-10, 5, 15),
+        (-5, -10, 5),
+        (0, 0, 0),
+    ],
+)
+def test_absolute_difference(a, b, expected):
+    assert AbsoluteDifference().execute(a, b) == pytest.approx(expected)
+
+
+@pytest.mark.parametrize(
+    "name,expected_class",
+    [
+        ("modulus", Modulus),
+        ("int_divide", IntegerDivision),
+        ("percent", Percentage),
+        ("abs_diff", AbsoluteDifference),
+    ],
+)
+def test_new_operation_factory(name, expected_class):
+    operation = OperationFactory.create(name)
+
+    assert isinstance(operation, expected_class)
+    assert isinstance(operation, Operation)
+
+
+def test_new_operation_factory_case_insensitive():
+    assert isinstance(
+        OperationFactory.create("MODULUS"),
+        Modulus,
+    )
+    assert isinstance(
+        OperationFactory.create("PERCENT"),
+        Percentage,
+    )
