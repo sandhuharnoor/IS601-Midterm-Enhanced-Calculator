@@ -7,6 +7,9 @@ from app.exceptions import CalculatorError
 from app.history import HistoryManager
 from app.input_validators import validate_arguments
 from app.logger import logger
+from colorama import Fore, Style, init
+
+init(autoreset=True)
 
 
 class HistoryObserver:
@@ -176,8 +179,8 @@ def repl():
     """Run the interactive calculator."""
     calculator = Calculator()
 
-    print("Enhanced Professional Calculator")
-    print("Type 'help' for available commands.")
+    print(f"{Fore.CYAN}Enhanced Professional Calculator{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}Type 'help' for available commands.{Style.RESET_ALL}")
 
     logger.info("Calculator application started.")
 
@@ -250,7 +253,7 @@ def repl():
                 operation, a, b
             )
 
-            print(f"Result: {result}")
+            print(f"{Fore.GREEN}Result: {result}{Style.RESET_ALL}")
 
         except CalculatorError as exc:
             logger.warning(
@@ -258,7 +261,7 @@ def repl():
                 exc,
             )
 
-            print(f"Error: {exc}")
+            print(f"{Fore.RED}Error: {exc}{Style.RESET_ALL}")
 
         except (EOFError, KeyboardInterrupt):
             logger.info("Calculator application interrupted.")
