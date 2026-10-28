@@ -41,6 +41,16 @@ The calculator supports 10 arithmetic operations:
 - 100% test coverage
 - GitHub Actions continuous integration
 
+### Optional Feature: Color-Coded Outputs
+
+The calculator uses Colorama to improve the command-line interface.
+
+- Green displays successful calculation results.
+- Red displays error messages.
+- Cyan displays welcome messages and instructions.
+
+This feature improves readability and helps users distinguish successful operations from errors.
+
 ## Installation
 
 Clone the GitHub repository:
